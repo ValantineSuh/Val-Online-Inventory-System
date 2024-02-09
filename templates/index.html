@@ -4,8 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online inventory system</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <h1>Welcome to Online Inventory System</h1>
+    <div class="location-form">
+        <table border="1">
+      <thead>
+      <tr>
+        <th>Location Name</th>
+        <th>NUmber Of Offices</th>
+        <th>Head Quater Contacts</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for location in locations  %}
+        <tr>
+          <td>{{ location.location_name }}</td>
+          <td>{{ location.number_of_offices}}</td>
+          <td>{{ location.head_quater_contact}}</td>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+        </table>
+        <a href="/location">location form</a>
+      </div>
 </body>
 </html>
