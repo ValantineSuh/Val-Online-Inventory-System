@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Inventory System</title>
+    <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}"
+    />
+</head>
+<body>
+    <div class="header">
+        <input type="search" id="query" name="search" placeholder="Search...">
+        <button>Submit</button>
+        <a href="#"><img src="{{ url_for('static', filename='logo.png') }}" alt=""></a>
+    </div>
+
+    <!--sidebar section-->
+    <section class="sidebar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="logo">
+        </div>
+        <div class="content">
+            <a href="#" class="fas fa-home">Home</a>
+            <a href="#" class="fas fa-home">Equipment</a>
+            <a href="#" class="fas fa-home">Location</a>
+            <a href="#" class="fas fa-home">Employee</a>
+            <a href="#" class="fas fa-home">Purchases</a>
+            <a href="#" class="fas fa-home">Logout</a>
+        </div>
+    </section>
+
+    <h1>Welcome To Our Online Inventory System</h1>
+    <div class="cards">
+        <div class="card" id="card1">
+          <h3>N* of Equipments</h3><br>
+          <p>20</p>
+        </div>
+        <div class="card" id="card2">
+          <h3>N* of Employees</h3><br>
+          <p>30</p>
+        </div>
+        <div class="card" id="card3">
+          <h3>N* of Offices</h3><br>
+          <p>05</p>
+        </div>
+        <div class="card" id="card4">
+          <h3>N* of Purchases</h3><br>
+          <p>10</p>
+        </div>
+      </div>
+</body>
+</html>
