@@ -27,6 +27,12 @@ class Location(db.Model):
 def create_table():
     db.create_all()
 
+
+@app.route('/main')
+def main():
+    # return 'Online inventory system'
+    return render_template("main.html")
+
 @app.route('/')
 def index():
     locations = Location.query.all()
@@ -54,6 +60,7 @@ def add_location_details():
 
     # If the request method is not GET or POST, return an error response
     return 'Method Not Allowed', 405
+
 
 if __name__ == '__main__':
     app.run(host='localhost', port=8080, debug=True)
