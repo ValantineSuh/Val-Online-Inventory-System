@@ -5,15 +5,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Purchase Form</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
-
-
-  <script src="script.js"></script>
 </body>
 <div class="container">
-    <form id="form" action="/">
+    <form id="form" action="/purchase" method="POST">
         <h1>Purchase Form</h1>
         <div class="input-control">
             <label for="date">Date:</label>
