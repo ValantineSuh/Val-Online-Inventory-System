@@ -33,7 +33,7 @@ def index():
     return render_template('index.html', purchases=purchases)
 
 
-@app.route('/purchase', methods=['GET', 'POST'])
+@app.route('/add_purchase', methods=['GET', 'POST'])
 def add_purchase_details():
     if request.method == 'GET':
         return render_template('purchase_form.html')
@@ -46,6 +46,7 @@ def add_purchase_details():
         db.session.add(purchase)
         db.session.commit()
         return redirect('/')
+    
 
 
 if __name__ == '__main__':
