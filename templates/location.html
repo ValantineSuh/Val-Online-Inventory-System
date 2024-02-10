@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Inventory System</title>
+    <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='main.css') }}"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <div class="header">
+        <input type="search" id="query" name="search" placeholder="Search...">
+        <button>Submit</button>
+        <a href="#"><img src="{{ url_for('static', filename='logo.png') }}" alt=""></a>
+    </div>
+
+    <!--sidebar section-->
+    <section class="sidebar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="logo">
+        </div>
+        <div class="content">
+            <a href="#" class="home">Home</a>
+            <a href="#" class="home">Equipment</a>
+            <a href="/location" class="fas fa-home">Location</a>
+            <a href="#" class="home">Employee</a>
+            <a href="#" class="home">Purchases</a>
+            <a href="#" class="home">Logout</a>
+        </div>
+    </section>
+    <!-- <marquee behavior="alternate" direction="right" scrollamount="10" margin-left="-300px" margin-right="300px">
+      <h1>Welcome To Our Online Inventory System</h1>
+    </marquee> -->
+    <div class="marquee-container">
+      <h1 class="marquee">Welcome To Our Online Inventory System</h1>
+    </div>
+    <div class="location-form">
+      <a href="/add-location" class="btn1">Add Location</a>
+      <table border="1" style="overflow: auto;">
+        <thead>
+          <tr>
+            <th>Location Name</th>
+            <th>Number Of Offices</th>
+            <th>Head Quater Contacts</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for location in locations  %}
+            <tr>
+              <td>{{ location.location_name }}</td>
+              <td>{{ location.number_of_offices}}</td>
+              <td>{{ location.head_quater_contact}}</td>
+              <td class="action">
+                <a href="#"><i class="fa fa-edit" style="font-size:24px"></i></a>
+                <a href="#"><i class="fa fa-trash-o" style="font-size:24px"></i></a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <!-- <a href="/add-location" class="btn1">Add Location</a> -->
+    </div>
+</body>
+</html>

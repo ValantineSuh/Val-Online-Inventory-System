@@ -27,22 +27,25 @@ class Location(db.Model):
 def create_table():
     db.create_all()
 
+@app.route('/')
+def entry_point():
+    return render_template("main.html")
 
 @app.route('/main')
 def main():
     # return 'Online inventory system'
     return render_template("main.html")
 
-@app.route('/')
+@app.route('/location')
 def index():
     locations = Location.query.all()
-    return render_template ('index.html', locations = locations) 
+    return render_template ('location.html', locations = locations) 
 
 
-@app.route('/location', methods=['GET', 'POST'])
+@app.route('/add-location', methods=['GET', 'POST'])
 def add_location_details():
     if request.method == 'GET':
-        return render_template('location form.html')
+        return render_template('locationForm.html')
 
     if request.method == 'POST':
         # Handle the form submission
@@ -56,7 +59,7 @@ def add_location_details():
         )
         db.session.add(location)
         db.session.commit()
-        return redirect('/')
+        return redirect('/location')
 
     # If the request method is not GET or POST, return an error response
     return 'Method Not Allowed', 405
