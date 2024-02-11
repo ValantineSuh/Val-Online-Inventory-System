@@ -98,6 +98,28 @@ def add_purchase_details():
         return redirect('/purchase')
     
 
+@app.route('/edit_location<int:id>', methods=['GET' ,'POST' ])
+def edit_location(id):
+    location = Location.query.get(id)
+    if request.method == 'GET':
+        return render_template('edit_location.html' ,location=location)
+    
+    if  request.method == 'POST':
+        location.location_name = request.form['location_name']
+        location.number_of_offices = request.form['number_of_offices']
+        location.head_quater_contact = request.form['head_quater_contact']
+        db.session.commit()
+        return redirect('/location')
+
+
+@app.route('/delete_location<int:id>')
+def delete_location(id):
+    location = Location.query.get_or_404(id)
+    db.session.delete(location)
+    db.session.commit()
+    return redirect('/location')
+    
+
 @app.route('/equipment')
 def equipment():
     return render_template('add_equipment.html')
