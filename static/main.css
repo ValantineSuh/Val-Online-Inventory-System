@@ -93,7 +93,7 @@ body {
 }
 
 /* Style the active class (and buttons on mouse-over) */
-.home, .home:hover {
+.active, .home:hover {
   background: darkslategrey;
   color: black;
   font-weight: bold;
@@ -165,6 +165,15 @@ h1{
   margin-left: 300px;
 }
 
+.purchase-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  /* margin-top: 25px; */
+  margin-left: 300px;
+}
+
 table {
   width: 80%;
   border-collapse: collapse;
@@ -204,6 +213,7 @@ tbody tr:nth-child(even) {
   font-size: 20px;
   display: block;
   margin-top: -20px;
+  font-weight: bold;
 }
 
 .marquee-container {

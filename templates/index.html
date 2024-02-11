@@ -8,30 +8,5 @@
 </head>
 <body>
     <h1>Welcome to Online Inventory System</h1>
-
-    <div class="purchase_form">
-      <table border="1">
-    <thead>
-    <tr>
-      <th>Purchase Date</th>
-      <th>Store</th>
-      <th>warranty-period</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for purchase in purchases %}
-      <tr>
-        <td>{{ purchase.date }}</td>
-        <td>{{ purchase.store }}</td>
-        <td>{{ purchase.warranty_period }}</td>
-        
-      </tr>
-    {% endfor %}
-    </tbody>
-      </table>
-
-
-
-    <a href="/add_purchase">Add Purchase infor</a>
 </body>
 </html>

@@ -5,9 +5,9 @@ body {
 
 .container {
     width: 362px;
-    height: 770px;
-    margin: 20vh auto 0 auto;
-    padding: 30px 50px;
+    height: auto;
+    margin: 10px auto 0 auto;
+    padding: 50px 80px;
     background-color: whitesmoke;
     border-radius: 4px;
     font-size: 20px;
