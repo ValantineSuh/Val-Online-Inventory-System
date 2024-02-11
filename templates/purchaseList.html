@@ -56,8 +56,8 @@
                         <td>{{ purchase.store }}</td>
                         <td>{{ purchase.warranty_period }}</td>   
                         <td class="action">
-                            <a href="#"><i class="fa fa-edit" style="font-size:24px"></i></a>
-                            <a href="#"><i class="fa fa-trash-o" style="font-size:24px"></i></a>
+                            <a href="/edit_purchase{{ purchase.id }}"><i class="fa fa-edit" style="font-size:24px"></i></a>
+                            <a href="/delete_purchase{{ purchase.id }}"><i class="fa fa-trash-o" style="font-size:24px"></i></a>
                         </td>
                     </tr>
                 {% endfor %}
