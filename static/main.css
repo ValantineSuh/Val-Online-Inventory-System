@@ -68,7 +68,7 @@ body {
 .logo {
   width: 300px;
   height: 200px;
-  background: rgb(217, 217, 217);
+  background: rgba(59, 112, 63, 0.938);
   display: flex;
   justify-content: center;
   align-items: center;
