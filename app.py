@@ -3,8 +3,7 @@ import sqlite3
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///purchases.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///locations.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///OIS.db'
 db=SQLAlchemy(app)
 
 class Location(db.Model):
@@ -97,6 +96,28 @@ def add_purchase_details():
         db.session.commit()
         return redirect('/purchase')
     
+
+@app.route('/edit_purchase<int:id>', methods=['GET' ,'POST' ])
+def edit_purchase(id):
+    purchase = Purchases.query.get(id)
+    if request.method == 'GET':
+        return render_template('edit_purchase.html' ,purchase=purchase)
+    
+    if  request.method == 'POST':
+        purchase.date = request.form['date']
+        purchase.store = request.form['store']
+        purchase.warranty_period = request.form['warranty_period']
+        db.session.commit()
+        return redirect('/purchase')
+
+
+@app.route('/delete_purchase<int:id>')
+def delete_purchase(id):
+    purchase = Purchases.query.get_or_404(id)
+    db.session.delete(purchase)
+    db.session.commit()
+    return redirect('/purchase')    
+
 
 @app.route('/edit_location<int:id>', methods=['GET' ,'POST' ])
 def edit_location(id):
