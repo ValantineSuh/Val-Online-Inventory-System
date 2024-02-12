@@ -78,6 +78,7 @@ body {
   width: 250px;
   display: block;
   margin: auto;
+  background-color: rgba(59, 112, 63, 0.938);
 }
 
 .content {
@@ -126,7 +127,7 @@ h1{
   margin-left: 300px;
   text-align: center;
   margin-top: 40px;
-  color: darkslategrey;
+  color: rgb(12, 94, 94);
 }
 
 
@@ -148,19 +149,19 @@ h1{
 }
 
 #card1{
-  background: #f0edd0;
+  background: #e2d134;
 }
 
 #card2{
-  background: #d4ebd7;
+  background: #49af57;
 }
 
 #card3{
-  background: #e8d7c7;
+  background: #965e29;
 }
 
 #card4{
-  background: #cee6f0;
+  background: #46829c;
 }
 
 .card h3 {
