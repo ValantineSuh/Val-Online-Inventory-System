@@ -8,6 +8,7 @@
     rel="stylesheet"
     href="{{ url_for('static', filename='main.css') }}"
     />
+    <script src="{{ url_for('static', filename='index.js') }}"></script>
 </head>
 <body>
     <div class="header">
@@ -37,23 +38,24 @@
         <div class="card" id="card1">
           <h3>N° of Equipments</h3>
           <hr><br>
-          <p>20</p>
+          <a href="/equipment"><p>20</p></a>
         </div>
         <div class="card" id="card2">
           <h3>N° of Employees</h3>
           <hr><br> 
-          <p>30</p>
+          <a href="/employee"><p>{{ employee_count }}</p></a>
         </div>
         <div class="card" id="card3">
-          <h3>N° of Offices</h3>
+          <h3>N° of Locations</h3>
           <hr><br> 
-          <p>05</p>
+          <a href="/location"><p>{{ location_count }}</p></a>
         </div>
         <div class="card" id="card4">
           <h3>N° of Purchases</h3>
           <hr><br> 
-          <p>10</p>
+          <a href="/purchase"><p>{{ purchase_count }}</p></a>
         </div>
       </div>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 </html>

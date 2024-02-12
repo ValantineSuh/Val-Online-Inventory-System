@@ -69,7 +69,19 @@ def create_table():
     
 @app.route('/')
 def entry_point():
-    return render_template("main.html")
+    employees = Employee.query.all()
+    employee_count = len(employees)
+    purchases = Purchases.query.all()
+    purchase_count = len(purchases)
+    locations = Location.query.all()
+    location_count = len(locations)
+
+    return render_template('main.html', 
+    employees = employees, employee_count=employee_count,
+    purchases = purchases, purchase_count=purchase_count,
+    locations = locations, location_count=location_count
+    )
+
     
 @app.route('/location')
 def index():

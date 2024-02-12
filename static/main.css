@@ -48,7 +48,7 @@ body {
 #sidebar-icon {
   content: "\25C2";
   margin-left: 300px;
-  font-size: 50px;
+  font-size: 40px;
   border-radius: 5px;
   text-decoration: none;
   color: #000;
@@ -169,11 +169,16 @@ h1{
 }
 
 .card p {
-  font-size: 30px;
+  font-size: 50px;
   margin: 10px;
   font-weight: bold;
   background: #d9d1d1;
   padding: 10px 0px;
+  text-decoration: none;
+}
+
+.card a{
+  text-decoration: none;
 }
 
 .location-form {
