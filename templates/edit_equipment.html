@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Edit Equipment Form</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+</head>
+<body>
+    <div class="container">
+        <form id="form" action="/edit_equipment{{ equipment.barcode_number }}" method="POST">
+            <h1>Edit equipment</h1>
+            <div class="input-control">
+                <label for="type">Type:</label>
+                <input id="type" name="type" type="text"   value="{{ equipment.type}}" required>
+                <!-- <div class="error"></div> -->
+            </div>
+            <div class="input-control">
+                <label for="serial_number">Serial_n°:</label>
+                <input id="serial_number" name="serial_number" type="text"  value="{{equipment.serial_number}}" required>
+                <!-- <div class="error"></div> -->
+            </div>
+            <div class="input-control">
+                <label for="model_number">Model_n°:</label>
+                <input id="model_number" name="model_number" type="text" value="{{equipment.model_number}}" required>
+                <!-- <div class="error"></div> -->
+            </div>
+            <div class="input-control">
+                <label for="purchase_date">Date purchased:</label>
+                <select name="purchase_date" id="purchase_date" required>
+                    <option value="null">--select date--</option>
+                    {% for purchase in purchases %}
+                        <option name="purcase_date" >{{purchase.date}}</option>
+                    {% endfor %}
+                </select>
+                <!-- <div class="error"></div> -->
+            </div>
+            <div class="input-control">
+                <label for="employee">Employee:</label>
+                <select name="employee" id="employee" required>
+                    <option value="null">--select employee--</option>
+                    {% for employee in employees %}
+                        <option name="employee" >{{employee.employee_name}}</option>
+                    {% endfor %}
+                </select>
+                <!-- <div class="error"></div> -->
+            </div>
+            <div class="input-control">
+                <label for="location_id">Location:</label>
+                <select name="location_id" id="location_id" required>
+                    <option value="null">--select location--</option>
+                    {% for location in locations %}
+                        <option name="location_id" >{{location.location_name}}</option>
+                    {% endfor %}
+                </select>
+                <!-- <div class="error"></div> -->
+            </div>
+            <center>
+                <button type="submit" id="mybtn">Submit</button>
+            </center>
+        </form>
+    </div>
+</body>
+</html>
+
+

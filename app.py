@@ -12,7 +12,8 @@ class Location(db.Model):
     location_name=db.Column(db.String(50))
     number_of_offices=db.Column(db.Integer)
     head_quater_contact=db.Column(db.Integer)
-    employees=db.relationship('Employee', backref='employees_location')
+    employees_rel=db.relationship('Employee', backref='employees_location')
+    equipment_rel=db.relationship('Equipment', backref='equipment_loation')
     
     def __init__(self, location_name, number_of_offices, head_quater_contact):
         self.location_name=location_name
@@ -31,7 +32,8 @@ class Employee(db.Model):
     phone_number=db.Column(db.Integer)
     department=db.Column(db.String(50))
     location_id=db.Column(db.Integer, db.ForeignKey('locations.id'))
-    location=db.relationship('Location', backref='employees_location')
+    location_rel=db.relationship('Location', backref='employees_location')
+    equipment_rel=db.relationship('Equipment', backref='equipment_employee')
     
     def __init__(self, employee_name, gender, title, phone_number, department, location_id):
         self.employee_name=employee_name
@@ -51,6 +53,7 @@ class Purchases(db.Model):
     date=db.Column(db.String(10))
     store=db.Column(db.String(10))
     warranty_period=db.Column(db.Integer)
+    equipment_rel=db.relationship('Equipment', backref='equipment_purchase')
 
     def __init__(self, date, store, warranty_period):
         self.date=date
@@ -60,7 +63,30 @@ class Purchases(db.Model):
     def __repr__(self):
         return f"{self.date}, {self.store}, {self.warranty_period}"
     
+class Equipment(db.Model):
+    __tablename__="equipment"
+    barcode_number=db.Column(db.Integer, primary_key=True)
+    type=db.Column(db.String(20))
+    serial_number=db.Column(db.Integer)
+    model_number=db.Column(db.Integer)
+    purchase_date=db.Column(db.Integer, db.ForeignKey('purchases.id'))
+    employee=db.Column(db.Integer, db.ForeignKey('employees.id'))
+    location_id=db.Column(db.Integer, db.ForeignKey('locations.id'))
+    purchase_rel=db.relationship('Purchases', backref='equipment_purchase')
+    employee_rel=db.relationship('Employee', backref='equipment_employee')
+    location_rel=db.relationship('Location', backref='equipment_location')
+    
+    def __init__(self, type, serial_number, model_number, purchase_date, employee, location_id):
+        self.type=type
+        self.serial_number=serial_number
+        self.model_number=model_number
+        self.purchase_date=purchase_date
+        self.employee=employee
+        self.location_id=location_id
 
+    def __repr__ (self):
+        return f"{self.type}, {self.serial_number}, {self.model_number}, {self.purchase_date}, {self.employee}, {self.location_id}"    
+  
 # creating a decorator that creates all the tables in the sqlalchemy model before any request is done
 @app.before_request
 def create_table():
@@ -75,11 +101,14 @@ def entry_point():
     purchase_count = len(purchases)
     locations = Location.query.all()
     location_count = len(locations)
+    equipment = Equipment.query.all()
+    equipment_count = len(equipment)
 
     return render_template('main.html', 
     employees = employees, employee_count=employee_count,
     purchases = purchases, purchase_count=purchase_count,
-    locations = locations, location_count=location_count
+    locations = locations, location_count=location_count,
+    equipment = equipment, equipment_count=equipment_count
     )
 
     
@@ -135,6 +164,37 @@ def add_employee_details():
         db.session.add(employee)
         db.session.commit()
         return redirect('/employee')
+
+    # If the request method is not GET or POST, return an error response
+    return 'Method Not Allowed', 405
+
+@app.route('/add-equipment', methods=['GET', 'POST'])
+def add_equipment_details():
+    locations = Location.query.all()
+    employees = Employee.query.all()
+    purchases = Purchases.query.all()
+    if request.method == 'GET':
+        return render_template('add_equipment.html', locations=locations, employees=employees, purchases=purchases)
+
+    if request.method == 'POST':
+        # Handle the form submission
+        type = request.form['type']
+        serial_number = request.form['serial_number']
+        model_number = request.form['model_number']
+        purchase_date = request.form['purchase_date']
+        employee = request.form['employee']
+        location_id = request.form['location_id']
+        equipment = Equipment(
+            type=type,
+            serial_number=serial_number,
+            model_number=model_number,
+            purchase_date=purchase_date,        
+            employee=employee,
+            location_id=location_id,
+        )
+        db.session.add(equipment)
+        db.session.commit()
+        return redirect('/equipment')
 
     # If the request method is not GET or POST, return an error response
     return 'Method Not Allowed', 405
@@ -211,7 +271,26 @@ def edit_employee(id):
         employee.location_id = request.form['location_id']
         db.session.commit()
         return redirect('/employee')
+
+@app.route('/edit_equipment<int:barcode_number>', methods=['GET' ,'POST' ])
+def edit_equipment(barcode_number):
+    locations = Location.query.all()
+    employees = Employee.query.all()
+    purchases = Purchases.query.all()
+    equipment = Equipment.query.get(barcode_number)
+    if request.method == 'GET':
+        return render_template('edit_equipment.html', equipment=equipment, locations=locations, purchases=purchases, employees=employees)
     
+    if  request.method == 'POST':
+        equipment.type = request.form['type']
+        equipment.serial_number = request.form['serial_number']
+        equipment.model_number = request.form['model_number']
+        equipment.purchase_date = request.form['purchase_date']
+        equipment.employee = request.form['employee']
+        equipment.location_id = request.form['location_id']
+        db.session.commit()
+        return redirect('/equipment')
+
 @app.route('/delete_location<int:id>')
 def delete_location(id):
     location = Location.query.get_or_404(id)
@@ -226,9 +305,17 @@ def delete_employee(id):
     db.session.commit()
     return redirect('/employee')
 
+@app.route('/delete_equipment<int:barcode_number>')
+def delete_equipment(barcode_number):
+    equipment = Equipment.query.get_or_404(barcode_number)
+    db.session.delete(equipment)
+    db.session.commit()
+    return redirect('/equipment')
+
 @app.route('/equipment')
-def equipment():
-    return render_template('add_equipment.html')
+def equipment_index():
+    equipment = Equipment.query.all()
+    return render_template('equipmentList.html', equipment = equipment)
 
 @app.route('/employee')
 def employee_index():
