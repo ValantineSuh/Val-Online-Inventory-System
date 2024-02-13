@@ -1,3 +1,5 @@
+// javascript code
+
 // function updateLocationCount() {
 //     $.ajax({
 //         url: '/employee/count',
