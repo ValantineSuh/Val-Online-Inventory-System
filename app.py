@@ -29,22 +29,24 @@ class Employee(db.Model):
     employee_name=db.Column(db.String(20))
     gender=db.Column(db.String(6))
     title=db.Column(db.String(10))
+    type=db.Column(db.String(10))
     phone_number=db.Column(db.Integer)
     department=db.Column(db.String(50))
     location_id=db.Column(db.Integer, db.ForeignKey('locations.id'))
     location_rel=db.relationship('Location', backref='employees_location')
     equipment_rel=db.relationship('Equipment', backref='equipment_employee')
     
-    def __init__(self, employee_name, gender, title, phone_number, department, location_id):
+    def __init__(self, employee_name, gender, title, type, phone_number, department, location_id):
         self.employee_name=employee_name
         self.gender=gender
         self.title=title
+        self.type=type
         self.phone_number=phone_number
         self.department=department
         self.location_id=location_id
 
     def __repr__ (self):
-        return f"{self.employee_name}, {self.gender}, {self.title}, {self.phone_number}, {self.department}, {self.location_id}"    
+        return f"{self.employee_name}, {self.gender}, {self.title}, {self.type}, {self.phone_number}, {self.department}, {self.location_id}"    
   
    
 class Purchases(db.Model):
@@ -92,8 +94,12 @@ class Equipment(db.Model):
 def create_table():
     db.create_all()
 
-    
+
 @app.route('/')
+def index():
+    return render_template('index.html')
+    
+@app.route('/entry_point')
 def entry_point():
     employees = Employee.query.all()
     employee_count = len(employees)
@@ -113,7 +119,7 @@ def entry_point():
 
     
 @app.route('/location')
-def index():
+def location():
     locations = Location.query.all()
     return render_template ('locationList.html', locations = locations) 
 
@@ -150,6 +156,7 @@ def add_employee_details():
         employee_name = request.form['employee_name']
         gender = request.form['gender']
         title = request.form['title']
+        type = request.form['type']
         phone_number = request.form['phone_number']
         department = request.form['department']
         location_id = request.form['location_id']
@@ -157,6 +164,7 @@ def add_employee_details():
             employee_name=employee_name,
             gender=gender,
             title=title,
+            type=type,
             phone_number=phone_number,        
             department=department,
             location_id=location_id,
@@ -266,6 +274,7 @@ def edit_employee(id):
         employee.employee_name = request.form['employee_name']
         employee.gender = request.form['gender']
         employee.title = request.form['title']
+        employee.type = request.form['type']
         employee.phone_number = request.form['phone_number']
         employee.department = request.form['department']
         employee.location_id = request.form['location_id']

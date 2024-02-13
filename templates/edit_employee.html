@@ -26,6 +26,14 @@
                 <!-- <div class="error"></div> -->
             </div>
             <div class="input-control">
+                <label for="type">Type:</label>
+                <select name="type" id="type" required>
+                    <option value="null">--select type--</option>
+                    <option name="type">User</option>
+                    <option name="type">Admin</option>
+                </select>
+            </div>
+            <div class="input-control">
                 <label for="phone_number">Phone:</label>
                 <input id="phone_number" name="phone_number" type="number" value="{{employee.phone_number}}" required>
                 <!-- <div class="error"></div> -->
