@@ -111,7 +111,12 @@ def entry_point():
     equipment = equipment, equipment_count=equipment_count
     )
 
-    
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+
 @app.route('/location')
 def index():
     locations = Location.query.all()
