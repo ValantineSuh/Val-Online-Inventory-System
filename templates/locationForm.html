@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Location Form</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+  <script src="script.js"></script>
+</body>
+<div class="container">
+    <form id="form" action="/add-location" method="POST">
+        <h1>Location Form</h1>
+        <div class="input-control">
+            <label for="name">Name:</label>
+            <input id="name" name="location_name" type="text" required>
+            <!-- <div class="error"></div> -->
+        </div>
+        <div class="input-control">
+            <label for="offices">Number Of Offices:</label>
+            <input id="offices" name="number_of_offices" type="number" required>
+            <!-- <div class="error"></div> -->
+        </div>
+        <div class="input-control">
+            <label for="Contact">HeadQuater Contact:</label>
+            <input id="Contact" name="head_quater_contact" type="text" required>
+            <!-- <div class="error"></div> -->
+        </div>
+        <center>
+            <button type="submit" id="mybtn">Submit</button>
+        </center>
+    </form>
+</div>
+</form>
+</html>

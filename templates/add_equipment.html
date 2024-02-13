@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Purchase Form</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+</head>
+
+
+
+  <script src="script.js"></script>
+</body>
+<div class="container">
+    <form id="form" action="/add-equipment" method="POST">
+        <h1>Equipment Form</h1>
+        <div class="input-control">
+            <label for="type">Type:</label>
+            <input id="type" name="type" type="text" required>
+            <!-- <div class="error"></div> -->
+        </div>
+        <div class="input-control">
+            <label for="serial_number">Serial N°:</label>
+            <input id="serial_number" name="serial_number" type="number" required>
+            <!-- <div class="error"></div> -->
+        </div>
+        <div class="input-control">
+            <label for="model_number">Model N°:</label>
+            <input id="model_number" name="model_number" type="number" required>
+            <!-- <div class="error"></div> -->
+        </div>
+        <div class="input-control">
+            <label for="purchase_date">Purchase date:</label>
+            <select name="purchase_date" id="purchase_date" required>
+                <option value="null">--select date--</option>
+                {% for purchase in purchases %}
+                    <option name="purcase_date" >{{purchase.date}}</option>
+                {% endfor %}
+            </select>
+            <!-- <div class="error"></div> -->
+        </div>
+        <div class="input-control">
+            <label for="employee">Employee:</label>
+            <select name="employee" id="employee" required>
+                <option value="null">--select employee--</option>
+                {% for employee in employees %}
+                    <option name="employee" >{{employee.employee_name}}</option>
+                {% endfor %}
+            </select> 
+            <!-- <div class="error"></div> -->
+        </div>
+        <div class="input-control">
+            <label for="location_id">Location:</label>
+            <select name="location_id" id="location_id" required>
+                <option value="null">--select location--</option>
+                {% for location in locations %}
+                    <option name="location_id" >{{location.location_name}}</option>
+                {% endfor %}
+            </select>
+            <!-- <div class="error"></div> -->
+        </div>
+        <center>
+            <button type="submit" id="mybtn">Submit</button>
+        </center>
+    </form>
+</div>
+</form>
+</html>
