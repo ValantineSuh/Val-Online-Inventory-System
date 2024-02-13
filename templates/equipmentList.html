@@ -24,9 +24,9 @@
         </div>
         <div class="content">
             <a href="/" class="home">Home</a>
-            <a href="/equipment" class="home">Equipment</a>
+            <a href="/equipment" class="home active">Equipment</a>
             <a href="/location" class="home">Location</a>
-            <a href="/employee" class="home active">Employee</a>
+            <a href="/employee" class="home">Employee</a>
             <a href="/purchase" class="home">Purchases</a>
             <a href="#" class="home">Logout</a>
         </div>
@@ -39,31 +39,31 @@
       <h1 class="marquee">Welcome To Our Online Inventory System</h1>
     </div>
     <div class="location-form">
-      <a href="/add-employee" class="btn1">Add Employee</a>
+      <a href="/add-equipment" class="btn1">Add Equipment</a>
       <table border="1" style="overflow: auto;">
         <thead>
           <tr>
-            <th>Employee Name</th>
-            <th>Gender</th>
-            <th>Title</th>
-            <th>Phone</th>
-            <th>Department</th>
+            <th>Type</th>
+            <th>Serial_n°</th>
+            <th>Model_n°</th>
+            <th>Purchase Date</th>
+            <th>Employee</th>
             <th>Location</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {% for employee in employees  %}
+          {% for equip in equipment %}
             <tr>
-              <td>{{ employee.employee_name }}</td>
-              <td>{{ employee.gender}}</td>
-              <td>{{ employee.title}}</td>
-              <td>{{ employee.phone_number}}</td>
-              <td>{{ employee.department}}</td>
-              <td>{{ employee.location_id}}</td>
+              <td>{{ equip.type }}</td>
+              <td>{{ equip.serial_number}}</td>
+              <td>{{ equip.model_number}}</td>
+              <td>{{ equip.purchase_date}}</td>
+              <td>{{ equip.employee}}</td>
+              <td>{{ equip.location_id}}</td>
               <td class="action">
-                <a href="/edit_employee{{ employee.id }}"><i class="fa fa-edit" style="font-size:24px"></i></a>
-                <a href="/delete_employee{{ employee.id }}"><i class="fa fa-trash-o" style="font-size:24px"></i></a>
+                <a href="/edit_equipment{{ equip.barcode_number }}"><i class="fa fa-edit" style="font-size:24px"></i></a>
+                <a href="/delete_equipment{{ equip.barcode_number }}"><i class="fa fa-trash-o" style="font-size:24px"></i></a>
               </td>
             </tr>
           {% endfor %}
