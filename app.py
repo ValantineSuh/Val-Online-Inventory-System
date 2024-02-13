@@ -32,24 +32,24 @@ class Employee(db.Model):
     type=db.Column(db.String(10))
     phone_number=db.Column(db.Integer)
     department=db.Column(db.String(50))
-    location_id=db.Column(db.Integer, db.ForeignKey('locations.id'))
+    location=db.Column(db.Integer, db.ForeignKey('locations.id'))
     location_rel=db.relationship('Location', backref='employees_location')
     equipment_rel=db.relationship('Equipment', backref='equipment_employee')
     
-    def __init__(self, employee_name, gender, title, type, phone_number, department, location_id):
+    def __init__(self, employee_name, gender, title, type, phone_number, department, location):
         self.employee_name=employee_name
         self.gender=gender
         self.title=title
         self.type=type
         self.phone_number=phone_number
         self.department=department
-        self.location_id=location_id
+        self.location=location
 
     def __repr__ (self):
-        return f"{self.employee_name}, {self.gender}, {self.title}, {self.type}, {self.phone_number}, {self.department}, {self.location_id}"    
+        return f"{self.employee_name}, {self.gender}, {self.title}, {self.type}, {self.phone_number}, {self.department}, {self.location}"    
   
    
-class Purchases(db.Model):
+class Purchase(db.Model):
     __tablename__ = "purchases"
     id=db.Column(db.Integer, primary_key=True)
     date=db.Column(db.String(10))
@@ -73,21 +73,21 @@ class Equipment(db.Model):
     model_number=db.Column(db.Integer)
     purchase_date=db.Column(db.Integer, db.ForeignKey('purchases.id'))
     employee=db.Column(db.Integer, db.ForeignKey('employees.id'))
-    location_id=db.Column(db.Integer, db.ForeignKey('locations.id'))
-    purchase_rel=db.relationship('Purchases', backref='equipment_purchase')
+    location=db.Column(db.Integer, db.ForeignKey('locations.id'))
+    purchase_rel=db.relationship('Purchase', backref='equipment_purchase')
     employee_rel=db.relationship('Employee', backref='equipment_employee')
     location_rel=db.relationship('Location', backref='equipment_location')
     
-    def __init__(self, type, serial_number, model_number, purchase_date, employee, location_id):
+    def __init__(self, type, serial_number, model_number, purchase_date, employee, location):
         self.type=type
         self.serial_number=serial_number
         self.model_number=model_number
         self.purchase_date=purchase_date
         self.employee=employee
-        self.location_id=location_id
+        self.location=location
 
     def __repr__ (self):
-        return f"{self.type}, {self.serial_number}, {self.model_number}, {self.purchase_date}, {self.employee}, {self.location_id}"    
+        return f"{self.type}, {self.serial_number}, {self.model_number}, {self.purchase_date}, {self.employee}, {self.location}"    
   
 # creating a decorator that creates all the tables in the sqlalchemy model before any request is done
 @app.before_request
@@ -103,7 +103,7 @@ def index():
 def entry_point():
     employees = Employee.query.all()
     employee_count = len(employees)
-    purchases = Purchases.query.all()
+    purchases = Purchase.query.all()
     purchase_count = len(purchases)
     locations = Location.query.all()
     location_count = len(locations)
@@ -164,7 +164,7 @@ def add_employee_details():
         type = request.form['type']
         phone_number = request.form['phone_number']
         department = request.form['department']
-        location_id = request.form['location_id']
+        location = request.form['location']
         employee = Employee(
             employee_name=employee_name,
             gender=gender,
@@ -172,7 +172,7 @@ def add_employee_details():
             type=type,
             phone_number=phone_number,        
             department=department,
-            location_id=location_id,
+            location=location,
         )
         db.session.add(employee)
         db.session.commit()
@@ -185,7 +185,7 @@ def add_employee_details():
 def add_equipment_details():
     locations = Location.query.all()
     employees = Employee.query.all()
-    purchases = Purchases.query.all()
+    purchases = Purchase.query.all()
     if request.method == 'GET':
         return render_template('add_equipment.html', locations=locations, employees=employees, purchases=purchases)
 
@@ -196,14 +196,14 @@ def add_equipment_details():
         model_number = request.form['model_number']
         purchase_date = request.form['purchase_date']
         employee = request.form['employee']
-        location_id = request.form['location_id']
+        location = request.form['location']
         equipment = Equipment(
             type=type,
             serial_number=serial_number,
             model_number=model_number,
             purchase_date=purchase_date,        
             employee=employee,
-            location_id=location_id,
+            location=location,
         )
         db.session.add(equipment)
         db.session.commit()
@@ -214,7 +214,7 @@ def add_equipment_details():
 
 @app.route('/purchase')
 def purchase():
-    purchases = Purchases.query.all()
+    purchases = Purchase.query.all()
     return render_template('purchaseList.html', purchases=purchases)
 
 
@@ -227,7 +227,7 @@ def add_purchase_details():
         date = request.form['date']
         store = request.form['store']
         warranty_period = request.form['warranty-period']
-        purchase = Purchases(date=date, store=store, warranty_period=warranty_period)
+        purchase = Purchase(date=date, store=store, warranty_period=warranty_period)
         db.session.add(purchase)
         db.session.commit()
         return redirect('/purchase')
@@ -235,7 +235,7 @@ def add_purchase_details():
 
 @app.route('/edit_purchase<int:id>', methods=['GET' ,'POST' ])
 def edit_purchase(id):
-    purchase = Purchases.query.get(id)
+    purchase = Purchase.query.get(id)
     if request.method == 'GET':
         return render_template('edit_purchase.html' ,purchase=purchase)
     
@@ -249,7 +249,7 @@ def edit_purchase(id):
 
 @app.route('/delete_purchase<int:id>')
 def delete_purchase(id):
-    purchase = Purchases.query.get_or_404(id)
+    purchase = Purchase.query.get_or_404(id)
     db.session.delete(purchase)
     db.session.commit()
     return redirect('/purchase')    
@@ -282,7 +282,7 @@ def edit_employee(id):
         employee.type = request.form['type']
         employee.phone_number = request.form['phone_number']
         employee.department = request.form['department']
-        employee.location_id = request.form['location_id']
+        employee.location = request.form['location']
         db.session.commit()
         return redirect('/employee')
 
@@ -290,7 +290,7 @@ def edit_employee(id):
 def edit_equipment(barcode_number):
     locations = Location.query.all()
     employees = Employee.query.all()
-    purchases = Purchases.query.all()
+    purchases = Purchase.query.all()
     equipment = Equipment.query.get(barcode_number)
     if request.method == 'GET':
         return render_template('edit_equipment.html', equipment=equipment, locations=locations, purchases=purchases, employees=employees)
@@ -301,7 +301,7 @@ def edit_equipment(barcode_number):
         equipment.model_number = request.form['model_number']
         equipment.purchase_date = request.form['purchase_date']
         equipment.employee = request.form['employee']
-        equipment.location_id = request.form['location_id']
+        equipment.location = request.form['location']
         db.session.commit()
         return redirect('/equipment')
 
