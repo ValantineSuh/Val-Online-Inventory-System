@@ -101,7 +101,7 @@ body{
 .column2 p{
     background: #fff;
     text-align: center;
-    width: 100px;
+    width: auto;
     padding: 10px;
     border-radius: 5px;
     font-weight: bold;
