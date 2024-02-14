@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, jsonify, Response
 import sqlite3
 from flask_sqlalchemy import SQLAlchemy
 
@@ -150,6 +150,26 @@ def equipment():
 def employee():
     return render_template('add_employee.html')
 
+
+@app.route('/search', methods=['GET'])
+def search():
+    res = None
+
+    entity = request.args.get('entity')
+    query = request.args.get('query')
+
+    if entity == 'location':
+        data = Location.query.filter(Location.location_name.contains(query)).all()
+        res = jsonify([{ 
+            "location_name": r.location_name, "number_of_offices": r.number_of_offices, "head_quater_contact": r.number_of_offices
+        } for r in data])
+    # elif entity == 'location':
+    #     data = Location.query.filter(Location.location_name.contains(query)).all()
+    #     res = jsonify(data)
+    else:
+        res = Response("Invalid entity", status=400)
+
+    return res
 
 if __name__ == '__main__':
     app.run(host='localhost', port=8080, debug=True)

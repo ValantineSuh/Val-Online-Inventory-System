@@ -4,16 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online Inventory System</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/index.js') }}"></script>
     <link
     rel="stylesheet"
     href="{{ url_for('static', filename='main.css') }}"
     />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script>
+      $(document).ready(function(){
+         $('#search-button').on('click', function(){
+            var query = $('#query').val();
+            $.get('/search', {entity: 'location', query: query}, function(data){
+               $('#table-results').empty();
+               data.forEach(function(d){
+                  $('#table-results').append(`
+                  <tr>
+                    <td>${ d.location_name }</td>
+                    <td>${ d.number_of_offices}</td>
+                    <td>${d.head_quater_contact}</td>
+                    <td class="action">
+                      <a href="/edit_location/location.id"><i class="fa fa-edit" style="font-size:24px"></i></a>
+                      <a href="/delete_location/location.id"><i class="fa fa-trash-o" style="font-size:24px"></i></a>
+                    </td>
+                  </tr>
+                  `);
+               });
+            });
+         });
+      });
+   </script>
 </head>
 <body>
     <div class="header">
         <input type="search" id="query" name="search" placeholder="Search...">
-        <button>Submit</button>
+        <button id="search-button">Submit</button>
         <a href="#"><img src="{{ url_for('static', filename='logo.png') }}" alt=""></a>
     </div>
 
@@ -37,6 +63,7 @@
     </marquee> -->
     <div class="marquee-container">
       <h1 class="marquee">Welcome To Our Online Inventory System</h1>
+      <div id="results"></div>
     </div>
     <div class="location-form">
       <a href="/add-location" class="btn1">Add Location</a>
@@ -49,7 +76,7 @@
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="table-results">
           {% for location in locations  %}
             <tr>
               <td>{{ location.location_name }}</td>
