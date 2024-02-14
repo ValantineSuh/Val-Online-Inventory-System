@@ -40,7 +40,7 @@
     </div>
     <div class="location-form">
       <a href="/add-employee" class="btn1">Add Employee</a>
-      <table border="1" style="overflow: auto;">
+      <table border="1" style="overflow:auto;">
         <thead>
           <tr>
             <th>Employee Name</th>
@@ -62,7 +62,7 @@
               <td>{{ employee.type}}</td>
               <td>{{ employee.phone_number}}</td>
               <td>{{ employee.department}}</td>
-              <td>{{ employee.location_id}}</td>
+              <td>{{ employee.location}}</td>
               <td class="action">
                 <a href="/edit_employee{{ employee.id }}"><i class="fa fa-edit" style="font-size:24px"></i></a>
                 <a href="/delete_employee{{ employee.id }}"><i class="fa fa-trash-o" style="font-size:24px"></i></a>

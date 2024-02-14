@@ -44,11 +44,11 @@
                 <!-- <div class="error"></div> -->
             </div>
             <div class="input-control">
-                <label for="location_id">Location:</label>
-                <select name="location_id" id="location_id" required>
+                <label for="location">Location:</label>
+                <select name="location" id="location" required>
                     <option value="null">--select location--</option>
                     {% for location in locations %}
-                        <option name="location_id" >{{location.location_name}}</option>
+                        <option name="location" >{{location.location_name}}</option>
                     {% endfor %}
                 </select>
                 <!-- <div class="error"></div> -->
