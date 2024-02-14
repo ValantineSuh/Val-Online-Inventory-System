@@ -7,12 +7,13 @@ body{
 }
 
 .marquee {
-    animation: marquee 15s linear infinite;
+    /* animation: marquee 15s linear infinite; */
     white-space: nowrap;
-    color: #e531e8;
+    color: #e6ff04;
     font-size: 3em;
-    display: flex;
+    /* display: flex; */
     margin-top: 80px;
+    text-align: center;
 }
 
 .mytext{

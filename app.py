@@ -154,7 +154,7 @@ def add_location_details():
 def add_employee_details():
     locations = Location.query.all()
     if request.method == 'GET':
-        return render_template('add_employee.html', locations=locations)
+        return render_template('employeeForm.html', locations=locations)
 
     if request.method == 'POST':
         # Handle the form submission
@@ -187,7 +187,7 @@ def add_equipment_details():
     employees = Employee.query.all()
     purchases = Purchase.query.all()
     if request.method == 'GET':
-        return render_template('add_equipment.html', locations=locations, employees=employees, purchases=purchases)
+        return render_template('equipmentForm.html', locations=locations, employees=employees, purchases=purchases)
 
     if request.method == 'POST':
         # Handle the form submission
@@ -221,7 +221,7 @@ def purchase():
 @app.route('/add-purchase', methods=['GET', 'POST'])
 def add_purchase_details():
     if request.method == 'GET':
-        return render_template('purchase_form.html')
+        return render_template('purchaseForm.html')
 
     if request.method == 'POST':
         date = request.form['date']
