@@ -26,6 +26,7 @@ class Location(db.Model):
 class Employee(db.Model):
     __tablename__="employees"
     id=db.Column(db.Integer, primary_key=True)
+    password=db.Column(db.String(20))
     employee_name=db.Column(db.String(20))
     gender=db.Column(db.String(6))
     title=db.Column(db.String(10))
@@ -36,7 +37,8 @@ class Employee(db.Model):
     location_rel=db.relationship('Location', backref='employees_location')
     equipment_rel=db.relationship('Equipment', backref='equipment_employee')
     
-    def __init__(self, employee_name, gender, title, type, phone_number, department, location):
+    def __init__(self, employee_name, password, gender, title, type, phone_number, department, location):
+        self.password=password
         self.employee_name=employee_name
         self.gender=gender
         self.title=title
@@ -159,6 +161,7 @@ def add_employee_details():
     if request.method == 'POST':
         # Handle the form submission
         employee_name = request.form['employee_name']
+        password= request.form['password']
         gender = request.form['gender']
         title = request.form['title']
         type = request.form['type']
@@ -167,6 +170,7 @@ def add_employee_details():
         location = request.form['location']
         employee = Employee(
             employee_name=employee_name,
+            password=password,
             gender=gender,
             title=title,
             type=type,
