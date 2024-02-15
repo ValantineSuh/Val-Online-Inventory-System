@@ -8,6 +8,7 @@
     rel="stylesheet"
     href="{{ url_for('static', filename='main.css') }}"
     />
+    <script src="{{ url_for('static', filename='index.js') }}"></script>
 </head>
 <body>
     <div class="header">
@@ -23,33 +24,38 @@
             <img src="{{ url_for('static', filename='logo.png') }}" alt="logo">
         </div>
         <div class="content">
-            <a href="/" class="home active">Home</a>
-            <a href="#" class="home">Equipment</a>
+            <a href="/entry_point" class="home active">Home</a>
+            <a href="/equipment" class="home">Equipment</a>
             <a href="/location" class="home">Location</a>
-            <a href="#" class="home">Employee</a>
+            <a href="/employee" class="home">Employee</a>
             <a href="/purchase" class="home">Purchases</a>
-            <a href="#" class="home">Logout</a>
+            <a href="/login" class="home">Logout</a>
         </div>
     </section>
 
     <h1>Welcome To Our Online Inventory System</h1>
     <div class="cards">
         <div class="card" id="card1">
-          <h3>N° of Equipments</h3><br>
-          <p>20</p>
+          <h3>N° of Equipment</h3>
+          <hr><br>
+          <a href="/equipment"><p>{{ equipment_count }}</p></a>
         </div>
         <div class="card" id="card2">
-          <h3>N° of Employees</h3><br>
-          <p>30</p>
+          <h3>N° of Employees</h3>
+          <hr><br> 
+          <a href="/employee"><p>{{ employee_count }}</p></a>
         </div>
         <div class="card" id="card3">
-          <h3>N° of Offices</h3><br>
-          <p>05</p>
+          <h3>N° of Locations</h3>
+          <hr><br> 
+          <a href="/location"><p>{{ location_count }}</p></a>
         </div>
         <div class="card" id="card4">
-          <h3>N° of Purchases</h3><br>
-          <p>10</p>
+          <h3>N° of Purchases</h3>
+          <hr><br> 
+          <a href="/purchase"><p>{{ purchase_count }}</p></a>
         </div>
       </div>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 </html>

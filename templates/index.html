@@ -4,9 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online inventory system</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
 </head>
 <body>
-    <h1>Welcome to Online Inventory System</h1>
+    <marquee behavior="alternate" direction="right" scrollamount="14">
+      <h1 class="marquee">Welcome to our Online Inventory System</h1>
+    </marquee>
+    <p class="mytext">Please Endeavour to SignIn to Explore The Powerful Features Of Our System</p>
+    <p class="myp">Let's Get Started.......</p>
+    <br>
+    <a href="/login" class="mybtn">Login</a>
 </body>
 </html>

@@ -1,0 +1,158 @@
+body{
+    background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+    font-family: Verdana;
+    width: auto;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    width: auto;
+}
+.row{
+    display: flex;
+    margin: auto 50px;
+    top: 50%;
+    transform: translate(0, -50%);
+    position: absolute;
+}
+
+#Loginform{
+    background: #fff;
+    padding: 30px 50px;
+    border-right: 5px solid rgb(255, 255, 255);
+    padding: 80px;
+    /* border-radius: 10px; */
+}
+
+.column2{
+    background: rgb(182, 182, 177);
+    padding: 80px;
+    width: auto;
+    background-image: url(../static/form-image.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* border-radius: 10px; */
+}
+
+.input-control{
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0px;
+}
+
+.input-control input{
+    display: block;
+    font-size: 20px;
+    border-radius: 4px;
+    padding: 8px 20px;
+    width: 240px;
+    margin-top: 5px;
+    background: #d9d9d9;
+    margin-bottom: 10px;
+}
+
+.input-control label{
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.h1{
+    background: #55a51c;
+    color: #fff;
+    padding: 5px 20px;
+    width: 250px;
+    text-align: center;
+    font-family: Verdana, Geneva, Tahoma;
+    margin-top: 0px;
+    margin-bottom: 50px;
+}
+
+.btn{
+    font-size: 1em;
+    color: #fff;
+    background: #55a51c;
+    display: block;
+    font-size: 20px;
+    border-radius: 4px;
+    padding: 8px 20px;
+    width: 280px;
+    font-weight: bold;
+}
+
+.btn:hover{
+    background: darkgreen;
+    cursor: pointer;
+}
+
+.mytext{
+    background: #1b4c61;
+    color: #fff;
+    padding: 5px 20px;
+    width: auto;
+    text-align: center;
+    font-family: Verdana, Geneva, Tahoma;
+    margin-bottom: 50px;
+    margin-top: 0;
+}
+
+.column2 p{
+    background: #fff;
+    text-align: center;
+    width: auto;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    margin: auto;
+    font-size: 22px;
+}
+
+.user{
+    display: flex;
+    margin-top: 50px;
+    text-align: center;
+    margin-left: 70px;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.admin{
+    display: flex;
+    margin-top: 30px;
+    text-align: center;
+    margin-left: 70px;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.admin input{
+    width: 20px;
+    height: 20px;
+}
+
+.admin label{
+    background: #fff;
+    border-radius: 5px;
+    width: 150px;
+    padding: 2px;
+    margin-left: 5px;
+    display: flex;
+}
+
+
+.user label{
+    background: #fff;
+    border-radius: 5px;
+    width: 150px;
+    padding: 2px;
+    margin-left: 5px;
+    display: flex;
+}
+
+
+.user input{
+    width: 20px;
+    height: 20px;
+}

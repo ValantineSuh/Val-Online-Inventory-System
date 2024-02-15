@@ -48,7 +48,7 @@ body {
 #sidebar-icon {
   content: "\25C2";
   margin-left: 300px;
-  font-size: 50px;
+  font-size: 40px;
   border-radius: 5px;
   text-decoration: none;
   color: #000;
@@ -68,7 +68,7 @@ body {
 .logo {
   width: 300px;
   height: 200px;
-  background: rgb(217, 217, 217);
+  background: rgba(59, 112, 63, 0.938);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -78,6 +78,7 @@ body {
   width: 250px;
   display: block;
   margin: auto;
+  background-color: rgba(59, 112, 63, 0.938);
 }
 
 .content {
@@ -126,7 +127,7 @@ h1{
   margin-left: 300px;
   text-align: center;
   margin-top: 40px;
-  color: darkslategrey;
+  color: rgb(12, 94, 94);
 }
 
 
@@ -148,19 +149,19 @@ h1{
 }
 
 #card1{
-  background: #f0edd0;
+  background: #e2d134;
 }
 
 #card2{
-  background: #d4ebd7;
+  background: #49af57;
 }
 
 #card3{
-  background: #e8d7c7;
+  background: #965e29;
 }
 
 #card4{
-  background: #cee6f0;
+  background: #46829c;
 }
 
 .card h3 {
@@ -168,11 +169,16 @@ h1{
 }
 
 .card p {
-  font-size: 30px;
+  font-size: 50px;
   margin: 10px;
   font-weight: bold;
   background: #d9d1d1;
   padding: 10px 0px;
+  text-decoration: none;
+}
+
+.card a{
+  text-decoration: none;
 }
 
 .location-form {
@@ -257,4 +263,15 @@ tbody tr:nth-child(even) {
 
 .action .fa-trash-o{
   color: red;
+}
+
+.add-equipment{
+  background: rgb(24, 83, 24);
+  color: #fff;
+  font-size: 1em;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  transition: background-color 0.25s;
+  font-weight: bold;
 }

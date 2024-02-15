@@ -12,22 +12,50 @@ class Location(db.Model):
     location_name=db.Column(db.String(50))
     number_of_offices=db.Column(db.Integer)
     head_quater_contact=db.Column(db.Integer)
-
+    employees_rel=db.relationship('Employee', backref='employees_location')
+    equipment_rel=db.relationship('Equipment', backref='equipment_loation')
+    
     def __init__(self, location_name, number_of_offices, head_quater_contact):
         self.location_name=location_name
         self.number_of_offices=number_of_offices
         self.head_quater_contact=head_quater_contact
 
     def __repr__ (self):
-        return f"{self.location_name}, {self.number_of_offices}, {self.head_quater_contact}"    
-    
+        return f"{self.location_name}, {self.number_of_offices}, {self.head_quater_contact}"   
 
+class Employee(db.Model):
+    __tablename__="employees"
+    id=db.Column(db.Integer, primary_key=True)
+    employee_name=db.Column(db.String(20))
+    gender=db.Column(db.String(6))
+    title=db.Column(db.String(10))
+    type=db.Column(db.String(10))
+    phone_number=db.Column(db.Integer)
+    department=db.Column(db.String(50))
+    location_id=db.Column(db.Integer, db.ForeignKey('locations.id'))
+    location_rel=db.relationship('Location', backref='employees_location')
+    equipment_rel=db.relationship('Equipment', backref='equipment_employee')
+    
+    def __init__(self, employee_name, gender, title, type, phone_number, department, location_id):
+        self.employee_name=employee_name
+        self.gender=gender
+        self.title=title
+        self.type=type
+        self.phone_number=phone_number
+        self.department=department
+        self.location_id=location_id
+
+    def __repr__ (self):
+        return f"{self.employee_name}, {self.gender}, {self.title}, {self.type}, {self.phone_number}, {self.department}, {self.location_id}"    
+  
+   
 class Purchases(db.Model):
     __tablename__ = "purchases"
     id=db.Column(db.Integer, primary_key=True)
     date=db.Column(db.String(10))
     store=db.Column(db.String(10))
     warranty_period=db.Column(db.Integer)
+    equipment_rel=db.relationship('Equipment', backref='equipment_purchase')
 
     def __init__(self, date, store, warranty_period):
         self.date=date
@@ -37,22 +65,68 @@ class Purchases(db.Model):
     def __repr__(self):
         return f"{self.date}, {self.store}, {self.warranty_period}"
     
+class Equipment(db.Model):
+    __tablename__="equipment"
+    barcode_number=db.Column(db.Integer, primary_key=True)
+    type=db.Column(db.String(20))
+    serial_number=db.Column(db.Integer)
+    model_number=db.Column(db.Integer)
+    purchase_date=db.Column(db.Integer, db.ForeignKey('purchases.id'))
+    employee=db.Column(db.Integer, db.ForeignKey('employees.id'))
+    location_id=db.Column(db.Integer, db.ForeignKey('locations.id'))
+    purchase_rel=db.relationship('Purchases', backref='equipment_purchase')
+    employee_rel=db.relationship('Employee', backref='equipment_employee')
+    location_rel=db.relationship('Location', backref='equipment_location')
+    
+    def __init__(self, type, serial_number, model_number, purchase_date, employee, location_id):
+        self.type=type
+        self.serial_number=serial_number
+        self.model_number=model_number
+        self.purchase_date=purchase_date
+        self.employee=employee
+        self.location_id=location_id
 
+    def __repr__ (self):
+        return f"{self.type}, {self.serial_number}, {self.model_number}, {self.purchase_date}, {self.employee}, {self.location_id}"    
+  
 # creating a decorator that creates all the tables in the sqlalchemy model before any request is done
 @app.before_request
 def create_table():
     db.create_all()
 
-    
+
 @app.route('/')
-def entry_point():
-    return render_template("main.html")
-    
-@app.route('/location')
 def index():
+    return render_template('index.html')
+    
+@app.route('/entry_point')
+def entry_point():
+    employees = Employee.query.all()
+    employee_count = len(employees)
+    purchases = Purchases.query.all()
+    purchase_count = len(purchases)
+    locations = Location.query.all()
+    location_count = len(locations)
+    equipment = Equipment.query.all()
+    equipment_count = len(equipment)
+
+    return render_template('main.html', 
+    employees = employees, employee_count=employee_count,
+    purchases = purchases, purchase_count=purchase_count,
+    locations = locations, location_count=location_count,
+    equipment = equipment, equipment_count=equipment_count
+    )
+
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+
+@app.route('/location')
+def location():
     locations = Location.query.all()
     return render_template ('locationList.html', locations = locations) 
-
 
 @app.route('/add-location', methods=['GET', 'POST'])
 def add_location_details():
@@ -72,6 +146,68 @@ def add_location_details():
         db.session.add(location)
         db.session.commit()
         return redirect('/location')
+
+    # If the request method is not GET or POST, return an error response
+    return 'Method Not Allowed', 405
+
+@app.route('/add-employee', methods=['GET', 'POST'])
+def add_employee_details():
+    locations = Location.query.all()
+    if request.method == 'GET':
+        return render_template('add_employee.html', locations=locations)
+
+    if request.method == 'POST':
+        # Handle the form submission
+        employee_name = request.form['employee_name']
+        gender = request.form['gender']
+        title = request.form['title']
+        type = request.form['type']
+        phone_number = request.form['phone_number']
+        department = request.form['department']
+        location_id = request.form['location_id']
+        employee = Employee(
+            employee_name=employee_name,
+            gender=gender,
+            title=title,
+            type=type,
+            phone_number=phone_number,        
+            department=department,
+            location_id=location_id,
+        )
+        db.session.add(employee)
+        db.session.commit()
+        return redirect('/employee')
+
+    # If the request method is not GET or POST, return an error response
+    return 'Method Not Allowed', 405
+
+@app.route('/add-equipment', methods=['GET', 'POST'])
+def add_equipment_details():
+    locations = Location.query.all()
+    employees = Employee.query.all()
+    purchases = Purchases.query.all()
+    if request.method == 'GET':
+        return render_template('add_equipment.html', locations=locations, employees=employees, purchases=purchases)
+
+    if request.method == 'POST':
+        # Handle the form submission
+        type = request.form['type']
+        serial_number = request.form['serial_number']
+        model_number = request.form['model_number']
+        purchase_date = request.form['purchase_date']
+        employee = request.form['employee']
+        location_id = request.form['location_id']
+        equipment = Equipment(
+            type=type,
+            serial_number=serial_number,
+            model_number=model_number,
+            purchase_date=purchase_date,        
+            employee=employee,
+            location_id=location_id,
+        )
+        db.session.add(equipment)
+        db.session.commit()
+        return redirect('/equipment')
 
     # If the request method is not GET or POST, return an error response
     return 'Method Not Allowed', 405
@@ -132,6 +268,42 @@ def edit_location(id):
         db.session.commit()
         return redirect('/location')
 
+@app.route('/edit_employee<int:id>', methods=['GET' ,'POST' ])
+def edit_employee(id):
+    locations = Location.query.all()
+    employee = Employee.query.get(id)
+    if request.method == 'GET':
+        return render_template('edit_employee.html', employee=employee, locations=locations)
+
+    if  request.method == 'POST':
+        employee.employee_name = request.form['employee_name']
+        employee.gender = request.form['gender']
+        employee.title = request.form['title']
+        employee.type = request.form['type']
+        employee.phone_number = request.form['phone_number']
+        employee.department = request.form['department']
+        employee.location_id = request.form['location_id']
+        db.session.commit()
+        return redirect('/employee')
+
+@app.route('/edit_equipment<int:barcode_number>',  methods=['GET' ,'POST' ])
+def edit_equipment(barcode_number):
+    locations = Location.query.all()
+    employees = Employee.query.all()
+    purchases = Purchases.query.all()
+    equipment = Equipment.query.get(barcode_number)
+    if request.method == 'GET':
+        return render_template('edit_equipment.html', equipment=equipment, locations=locations, purchases=purchases, employees=employees)
+    
+    if  request.method == 'POST':
+        equipment.type = request.form['type']
+        equipment.serial_number = request.form['serial_number']
+        equipment.model_number = request.form['model_number']
+        equipment.purchase_date = request.form['purchase_date']
+        equipment.employee = request.form['employee']
+        equipment.location_id = request.form['location_id']
+        db.session.commit()
+        return redirect('/equipment')
 
 @app.route('/delete_location<int:id>')
 def delete_location(id):
@@ -140,21 +312,33 @@ def delete_location(id):
     db.session.commit()
     return redirect('/location')
     
+@app.route('/delete_employee<int:id>')
+def delete_employee(id):
+    employee = Employee.query.get_or_404(id)
+    db.session.delete(employee)
+    db.session.commit()
+    return redirect('/employee')
+
+@app.route('/delete_equipment<int:barcode_number>')
+def delete_equipment(barcode_number):
+    equipment = Equipment.query.get_or_404(barcode_number)
+    db.session.delete(equipment)
+    db.session.commit()
+    return redirect('/equipment')
 
 @app.route('/equipment')
-def equipment():
-    return render_template('add_equipment.html')
-
+def equipment_index():
+    equipment = Equipment.query.all()
+    return render_template('equipmentList.html', equipment = equipment)
 
 @app.route('/employee')
-def employee():
-    return render_template('add_employee.html')
-
+def employee_index():
+    employees = Employee.query.all()
+    return render_template ('employeeList.html', employees = employees) 
 
 @app.route('/search', methods=['GET'])
 def search():
     res = None
-
     entity = request.args.get('entity')
     query = request.args.get('query')
 
@@ -163,9 +347,25 @@ def search():
         res = jsonify([{ 
             "location_name": r.location_name, "number_of_offices": r.number_of_offices, "head_quater_contact": r.number_of_offices
         } for r in data])
-    # elif entity == 'location':
-    #     data = Location.query.filter(Location.location_name.contains(query)).all()
-    #     res = jsonify(data)
+
+    elif entity == 'employee':
+        data = Employee.query.filter(Employee.employee_name.contains(query)).all()
+        res = jsonify([{ 
+            "employee_name": r.employee_name, "gender": r.gender, "title": r.title, "type": r.type, "phone_number": r.phone_number, "department": r.department, "location_id": r.location_id
+        } for r in data])
+
+    elif entity == 'equipment':
+        data = Equipment.query.filter(Equipment.type.contains(query)).all()
+        res = jsonify([{ 
+            "type": r.type, "serial_number": r.serial_number, "model_number": r.model_number, "purchase_date": r.purchase_date, "employee": r.employee, "location_id": r.location_id
+        } for r in data])
+
+    elif entity == 'purchase':
+        data = Purchases.query.filter(Purchases.store.contains(query)).all()
+        res = jsonify([{ 
+            "date": r.date, "store": r.store, "warranty_period": r.warranty_period, 
+        } for r in data])
+        
     else:
         res = Response("Invalid entity", status=400)
 

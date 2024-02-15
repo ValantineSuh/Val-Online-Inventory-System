@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Edit Employee Form</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+</head>
+<body>
+    <div class="container">
+        <form id="form" action="/edit_employee{{ employee.id }}" method="POST">
+            <h1>Edit employee</h1>
+            <div class="input-control">
+                <label for="employee_name">Name:</label>
+                <input id="employee_name" name="employee_name" type="text"   value="{{ employee.employee_name}}" required>
+                <!-- <div class="error"></div> -->
+            </div>
+            <div class="input-control">
+                <label for="gender">Gender:</label>
+                <input id="gender" name="gender" type="text"  value="{{employee.gender}}" required>
+                <!-- <div class="error"></div> -->
+            </div>
+            <div class="input-control">
+                <label for="title">Title:</label>
+                <input id="title" name="title" type="text" value="{{employee.title}}" required>
+                <!-- <div class="error"></div> -->
+            </div>
+            <div class="input-control">
+                <label for="type">Type:</label>
+                <select name="type" id="type" required>
+                    <option value="null">--select type--</option>
+                    <option name="type">User</option>
+                    <option name="type">Admin</option>
+                </select>
+            </div>
+            <div class="input-control">
+                <label for="phone_number">Phone:</label>
+                <input id="phone_number" name="phone_number" type="number" value="{{employee.phone_number}}" required>
+                <!-- <div class="error"></div> -->
+            </div>
+            <div class="input-control">
+                <label for="department">Department:</label>
+                <input id="department" name="department" type="text" value="{{employee.department}}" required>
+                <!-- <div class="error"></div> -->
+            </div>
+            <div class="input-control">
+                <label for="location_id">Location:</label>
+                <select name="location_id" id="location_id" required>
+                    <option value="null">--select location--</option>
+                    {% for location in locations %}
+                        <option name="location_id" >{{location.location_name}}</option>
+                    {% endfor %}
+                </select>
+                <!-- <div class="error"></div> -->
+            </div>
+            <center>
+                <button type="submit" id="mybtn">Submit</button>
+            </center>
+        </form>
+    </div>
+</body>
+</html>
+
+

@@ -1,0 +1,52 @@
+body{
+    background-image: url(./main.jpg);
+    background-position: initial;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+}
+
+.marquee {
+    animation: marquee 15s linear infinite;
+    white-space: nowrap;
+    color: #e531e8;
+    font-size: 3em;
+    display: flex;
+    margin-top: 80px;
+}
+
+.mytext{
+    color: #fff;
+    font-size: 2em;
+    text-align: center;
+    font-weight: bold;
+}
+
+.myp{
+    color: #fff;
+    font-size: 1.5em;
+    text-align: center;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.mybtn {
+    background: #3366fc;
+    color: #fff;
+    font-size: 2em;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    transition: background-color 0.25s;
+    font-weight: bold;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 250px;
+    text-align: center;
+}
+
+.mybtn:hover{
+    color: #fff;
+    background: #0736c2;
+}

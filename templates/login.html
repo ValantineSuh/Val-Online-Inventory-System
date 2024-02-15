@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <form id="Loginform" class="column1" action="#" method="POST">
+                <h1 class="h1">Login Form</h1>
+                <div class="input-control">
+                    <label for="username">username:</label>
+                    <input  id="username" name="username" placeholder="username" required>
+                </div>
+                <div class="input-control">
+                    <label for="password">password:</label>
+                    <input id="password" name="password" type="password" placeholder="password" required><br>
+                </div>
+                <button class="btn" type="submit">Login</button>
+            </form>
+            <div class="column2">
+                <h1 class="mytext">Welcome to OIS</h1>
+                <p class="login-as text-center">Login as:</p>
+                <div class="user">
+                    <input type="radio" name="login" value="1">
+                    <label for="user">User</label>
+                </div>
+                <div class="admin">
+                    <input type="radio" name="login" value="1">
+                    <label for="user">Admin</label>
+                </div>
+            </div>
+        </div>            
+    </div>
+</body>
+</html>

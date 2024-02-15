@@ -4,28 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online Inventory System</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link
     rel="stylesheet"
     href="{{ url_for('static', filename='main.css') }}"
     />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <script>
       $(document).ready(function(){
          $('#search-button').on('click', function(){
             var query = $('#query').val();
-            $.get('/search', {entity: 'location', query: query}, function(data){
+            $.get('/search', {entity: 'equipment', query: query}, function(data){
                $('#table-results').empty();
-               data.forEach(function(d){
+               data.forEach(function(equip){
                   $('#table-results').append(`
                   <tr>
-                    <td>${ d.location_name }</td>
-                    <td>${ d.number_of_offices}</td>
-                    <td>${ d.head_quater_contact}</td>
-                     <td class="action"> 
-                      <a href="/edit_location/location.id"><i class="fa fa-edit" style="font-size:24px"></i></a>
-                      <a href="/delete_location/location.id"><i class="fa fa-trash-o" style="font-size:24px"></i></a>
+                    <td>${ equip.type }</td>
+                    <td>${ equip.serial_number}</td>
+                    <td>${ equip.model_number}</td>
+                    <td>${ equip.purchase_date}</td>
+                    <td>${ equip.employee}}</td>
+                    <td>${ equip.location_id}</td>
+                    <td class="action">
+                      <a href="/edit_equipment/equip.barcode_number"><i class="fa fa-edit" style="font-size:24px"></i></a>
+                      <a href="/delete_equipment/equip.barcode_number"><i class="fa fa-trash-o" style="font-size:24px"></i></a>
                     </td>
                   </tr>
                   `);
@@ -37,7 +40,7 @@
 </head>
 <body>
     <div class="header">
-        <input type="search" id="query" name="search" placeholder="Search by Location Name...">
+        <input type="search" id="query" name="search" placeholder="Search by Type...">
         <button id="search-button">Submit</button>
         <a href="#"><img src="{{ url_for('static', filename='logo.png') }}" alt=""></a>
     </div>
@@ -49,8 +52,8 @@
         </div>
         <div class="content">
             <a href="/entry_point" class="home">Home</a>
-            <a href="/equipment" class="home">Equipment</a>
-            <a href="/location" class="home active">Location</a>
+            <a href="/equipment" class="home active">Equipment</a>
+            <a href="/location" class="home">Location</a>
             <a href="/employee" class="home">Employee</a>
             <a href="/purchase" class="home">Purchases</a>
             <a href="/login" class="home">Logout</a>
@@ -62,28 +65,33 @@
     </marquee> -->
     <div class="marquee-container">
       <h1 class="marquee">Welcome To Our Online Inventory System</h1>
-      <div id="results"></div>
     </div>
     <div class="location-form">
-      <a href="/add-location" class="btn1">Add Location</a>
+      <a href="/add-equipment" class="btn1">Add Equipment</a>
       <table border="1" style="overflow: auto;">
         <thead>
           <tr>
-            <th>Location Name</th>
-            <th>Number Of Offices</th>
-            <th>Head Quater Contacts</th>
+            <th>Type</th>
+            <th>Serial_n°</th>
+            <th>Model_n°</th>
+            <th>Purchase Date</th>
+            <th>Employee</th>
+            <th>Location</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody id="table-results">
-          {% for location in locations  %}
+          {% for equip in equipment %}
             <tr>
-              <td>{{ location.location_name }}</td>
-              <td>{{ location.number_of_offices}}</td>
-              <td>{{ location.head_quater_contact}}</td>
+              <td>{{ equip.type }}</td>
+              <td>{{ equip.serial_number}}</td>
+              <td>{{ equip.model_number}}</td>
+              <td>{{ equip.purchase_date}}</td>
+              <td>{{ equip.employee}}</td>
+              <td>{{ equip.location_id}}</td>
               <td class="action">
-                <a href="/edit_location{{ location.id }}"><i class="fa fa-edit" style="font-size:24px"></i></a>
-                <a href="/delete_location{{ location.id }}"><i class="fa fa-trash-o" style="font-size:24px"></i></a>
+                <a href="/edit_equipment{{ equip.barcode_number }}"><i class="fa fa-edit" style="font-size:24px"></i></a>
+                <a href="/delete_equipment{{ equip.barcode_number }}"><i class="fa fa-trash-o" style="font-size:24px"></i></a>
               </td>
             </tr>
           {% endfor %}
