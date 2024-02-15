@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, jsonify, Response
 import sqlite3
 from flask_sqlalchemy import SQLAlchemy
 
@@ -274,7 +274,7 @@ def edit_employee(id):
     employee = Employee.query.get(id)
     if request.method == 'GET':
         return render_template('edit_employee.html', employee=employee, locations=locations)
-    
+
     if  request.method == 'POST':
         employee.employee_name = request.form['employee_name']
         employee.gender = request.form['gender']
@@ -286,7 +286,7 @@ def edit_employee(id):
         db.session.commit()
         return redirect('/employee')
 
-@app.route('/edit_equipment<int:barcode_number>', methods=['GET' ,'POST' ])
+@app.route('/edit_equipment<int:barcode_number>',  methods=['GET' ,'POST' ])
 def edit_equipment(barcode_number):
     locations = Location.query.all()
     employees = Employee.query.all()
@@ -335,6 +335,41 @@ def equipment_index():
 def employee_index():
     employees = Employee.query.all()
     return render_template ('employeeList.html', employees = employees) 
+
+@app.route('/search', methods=['GET'])
+def search():
+    res = None
+    entity = request.args.get('entity')
+    query = request.args.get('query')
+
+    if entity == 'location':
+        data = Location.query.filter(Location.location_name.contains(query)).all()
+        res = jsonify([{ 
+            "location_name": r.location_name, "number_of_offices": r.number_of_offices, "head_quater_contact": r.number_of_offices
+        } for r in data])
+
+    elif entity == 'employee':
+        data = Employee.query.filter(Employee.employee_name.contains(query)).all()
+        res = jsonify([{ 
+            "employee_name": r.employee_name, "gender": r.gender, "title": r.title, "type": r.type, "phone_number": r.phone_number, "department": r.department, "location_id": r.location_id
+        } for r in data])
+
+    elif entity == 'equipment':
+        data = Equipment.query.filter(Equipment.type.contains(query)).all()
+        res = jsonify([{ 
+            "type": r.type, "serial_number": r.serial_number, "model_number": r.model_number, "purchase_date": r.purchase_date, "employee": r.employee, "location_id": r.location_id
+        } for r in data])
+
+    elif entity == 'purchase':
+        data = Purchases.query.filter(Purchases.store.contains(query)).all()
+        res = jsonify([{ 
+            "date": r.date, "store": r.store, "warranty_period": r.warranty_period, 
+        } for r in data])
+        
+    else:
+        res = Response("Invalid entity", status=400)
+
+    return res
 
 if __name__ == '__main__':
     app.run(host='localhost', port=8080, debug=True)

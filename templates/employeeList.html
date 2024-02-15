@@ -8,12 +8,41 @@
     rel="stylesheet"
     href="{{ url_for('static', filename='main.css') }}"
     />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-</head>
+
+    <script>
+      $(document).ready(function(){
+         $('#search-button').on('click', function(){
+            var query = $('#query').val();
+            $.get('/search', {entity: 'employee', query: query}, function(data){
+               $('#table-results').empty();
+               data.forEach(function(employee){
+                  $('#table-results').append(`
+                  <tr>
+                    <td>${ employee.employee_name }</td>
+                    <td>${ employee.gender}</td>
+                    <td>${ employee.title}</td>
+                    <td>${ employee.type}</td>
+                    <td>${ employee.phone_number}</td>
+                    <td>${ employee.department}</td>
+                    <td>${ employee.location_id}</td>
+                    <td class="action">
+                      <a href="/edit_employee/employee.id"><i class="fa fa-edit" style="font-size:24px"></i></a>
+                      <a href="/delete_employee/employee.id"><i class="fa fa-trash-o" style="font-size:24px"></i></a>
+                    </td>
+                  </tr>
+                  `);
+               });
+            });
+         });
+      });
+    </script>
+  </head>
 <body>
-    <div class="header">
-        <input type="search" id="query" name="search" placeholder="Search...">
-        <button>Submit</button>
+    <div class="header"> 
+        <input type="search" id="query" name="search" placeholder="Search by Employee Name...">
+        <button id="search-button">Submit</button>
         <a href="#"><img src="{{ url_for('static', filename='logo.png') }}" alt=""></a>
     </div>
 
@@ -53,7 +82,7 @@
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="table-results">
           {% for employee in employees  %}
             <tr>
               <td>{{ employee.employee_name }}</td>
