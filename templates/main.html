@@ -6,14 +6,14 @@
     <title>Online Inventory System</title>
     <link
     rel="stylesheet"
-    href="{{ url_for('static', filename='main.css') }}"
+    href="{{ url_for('static', filename='main1.css') }}"
     />
     <script src="{{ url_for('static', filename='index.js') }}"></script>
 </head>
 <body>
     <div class="header">
       <a href="#" id="sidebar-icon">&#9666;</a>
-        <input type="search" id="query" name="search" placeholder="Search..." style="margin-left: 70px;">
+        <input type="search" id="query" name="search" placeholder="Search..." style="margin-left: 70px;" disabled>
         <button>Submit</button>
         <a href="#"><img src="{{ url_for('static', filename='logo.png') }}" alt=""></a>
     </div>
@@ -32,7 +32,7 @@
             <a href="/login" class="home">Logout</a>
         </div>
     </section>
-
+    
     <h1>Welcome To Our Online Inventory System</h1>
     <div class="cards">
         <div class="card" id="card1">

@@ -264,14 +264,3 @@ tbody tr:nth-child(even) {
 .action .fa-trash-o{
   color: red;
 }
-
-.add-equipment{
-  background: rgb(24, 83, 24);
-  color: #fff;
-  font-size: 1em;
-  text-decoration: none;
-  padding: 8px 16px;
-  border-radius: 10px;
-  transition: background-color 0.25s;
-  font-weight: bold;
-}

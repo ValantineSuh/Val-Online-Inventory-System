@@ -3,7 +3,7 @@ body{
     background-position: initial;
     background-repeat: no-repeat;
     background-size: cover;
-    height: 100vh;
+    height: auto;
 }
 
 .marquee {

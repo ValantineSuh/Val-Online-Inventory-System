@@ -351,17 +351,17 @@ def search():
     elif entity == 'employee':
         data = Employee.query.filter(Employee.employee_name.contains(query)).all()
         res = jsonify([{ 
-            "employee_name": r.employee_name, "gender": r.gender, "title": r.title, "type": r.type, "phone_number": r.phone_number, "department": r.department, "location_id": r.location_id
+            "employee_name": r.employee_name, "gender": r.gender, "title": r.title, "type": r.type, "phone_number": r.phone_number, "department": r.department, "location": r.location
         } for r in data])
 
     elif entity == 'equipment':
         data = Equipment.query.filter(Equipment.type.contains(query)).all()
         res = jsonify([{ 
-            "type": r.type, "serial_number": r.serial_number, "model_number": r.model_number, "purchase_date": r.purchase_date, "employee": r.employee, "location_id": r.location_id
+            "type": r.type, "serial_number": r.serial_number, "model_number": r.model_number, "purchase_date": r.purchase_date, "employee": r.employee, "location": r.location
         } for r in data])
 
     elif entity == 'purchase':
-        data = Purchases.query.filter(Purchases.store.contains(query)).all()
+        data = Purchase.query.filter(Purchase.store.contains(query)).all()
         res = jsonify([{ 
             "date": r.date, "store": r.store, "warranty_period": r.warranty_period, 
         } for r in data])

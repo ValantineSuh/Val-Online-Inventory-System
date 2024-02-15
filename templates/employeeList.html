@@ -26,7 +26,7 @@
                     <td>${ employee.type}</td>
                     <td>${ employee.phone_number}</td>
                     <td>${ employee.department}</td>
-                    <td>${ employee.location_id}</td>
+                    <td>${ employee.location}</td>
                     <td class="action">
                       <a href="/edit_employee/employee.id"><i class="fa fa-edit" style="font-size:24px"></i></a>
                       <a href="/delete_employee/employee.id"><i class="fa fa-trash-o" style="font-size:24px"></i></a>
@@ -95,7 +95,6 @@
               <td class="action">
                 <a href="/edit_employee{{ employee.id }}"><i class="fa fa-edit" style="font-size:24px"></i></a>
                 <a href="/delete_employee{{ employee.id }}"><i class="fa fa-trash-o" style="font-size:24px"></i></a>
-                <a href="#" class="add-equipment">Assign Equipment</a>
               </td>
             </tr>
           {% endfor %}
