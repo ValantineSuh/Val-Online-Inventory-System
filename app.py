@@ -113,11 +113,10 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        hashed_password = bcrypt.hash(password)
         login = request.form['loging'] 
         emp = Employee.query.filter_by(employee_name=username, type=login).first()
         print(emp)
-        if emp is None or not bcrypt.verify(hashed_password, emp.password):
+        if emp is None or not bcrypt.verify(password, emp.password):
             flash('Wrong username or password. Please try again.', 'error')
             return render_template('login.html')
         global keeper
