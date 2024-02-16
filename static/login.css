@@ -8,32 +8,32 @@ body{
     display: flex;
     justify-content: center;
     width: auto;
-}
-.row{
+} 
+
+#Loginform{
+    background: #fff;
     display: flex;
+    /* padding: 30px 50px;
+    padding: 80px; */
     margin: auto 50px;
     top: 50%;
     transform: translate(0, -50%);
     position: absolute;
 }
 
-#Loginform{
-    background: #fff;
-    padding: 30px 50px;
-    border-right: 5px solid rgb(255, 255, 255);
-    padding: 80px;
-    /* border-radius: 10px; */
+.column1{
+    margin-right: 50px;
+    padding: 100px;
 }
 
 .column2{
     background: rgb(182, 182, 177);
-    padding: 80px;
+    padding: 100px;
     width: auto;
     background-image: url(../static/form-image.jpg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    /* border-radius: 10px; */
 }
 
 .input-control{
@@ -155,4 +155,12 @@ body{
 .user input{
     width: 20px;
     height: 20px;
+}
+
+.flashes{
+  color: white;
+  font-size: 30px;
+  text-decoration: none;
+  text-align: center;
+  font-weight: bold;
 }

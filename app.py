@@ -1,9 +1,12 @@
-from flask import Flask, render_template, request, redirect, jsonify, Response
+from werkzeug.security import check_password_hash
+from passlib.hash import bcrypt
+from flask import Flask, render_template, request, redirect, jsonify, Response, flash, get_flashed_messages, url_for
 import sqlite3
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///OIS.db'
+app.secret_key = 'your_secret_key_here'
 db=SQLAlchemy(app)
 
 class Location(db.Model):
@@ -101,6 +104,42 @@ def create_table():
 def index():
     return render_template('index.html')
     
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    employees = Employee.query.all()
+    if request.method == 'GET':
+        return render_template('login.html')
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        hashed_password = bcrypt.hash(password)
+        login = request.form['loging'] 
+        emp = Employee.query.filter_by(employee_name=username, type=login).first()
+        print(emp)
+        if emp is None or not bcrypt.verify(hashed_password, emp.password):
+            flash('Wrong username or password. Please try again.', 'error')
+            return render_template('login.html')
+        global keeper
+        keeper = emp.employee_name
+        employees = Employee.query.all()
+        employee_count = len(employees)
+        purchases = Purchase.query.all()
+        purchase_count = len(purchases)
+        locations = Location.query.all()
+        location_count = len(locations)
+        equipment = Equipment.query.all()
+        equipment_count = len(equipment)
+
+        return render_template('main.html', 
+        employees = employees, employee_count=employee_count,
+        purchases = purchases, purchase_count=purchase_count,
+        locations = locations, location_count=location_count,
+        equipment = equipment, equipment_count=equipment_count,
+        name=keeper
+        )
+
+
 @app.route('/entry_point')
 def entry_point():
     employees = Employee.query.all()
@@ -116,14 +155,9 @@ def entry_point():
     employees = employees, employee_count=employee_count,
     purchases = purchases, purchase_count=purchase_count,
     locations = locations, location_count=location_count,
-    equipment = equipment, equipment_count=equipment_count
+    equipment = equipment, equipment_count=equipment_count,
+    name=keeper
     )
-
-
-@app.route('/login')
-def login():
-    return render_template('login.html')
-
 
 @app.route('/location')
 def location():
@@ -162,6 +196,7 @@ def add_employee_details():
         # Handle the form submission
         employee_name = request.form['employee_name']
         password= request.form['password']
+        hashed_password = bcrypt.hash(password)
         gender = request.form['gender']
         title = request.form['title']
         type = request.form['type']
@@ -170,7 +205,7 @@ def add_employee_details():
         location = request.form['location']
         employee = Employee(
             employee_name=employee_name,
-            password=password,
+            password=hashed_password,
             gender=gender,
             title=title,
             type=type,
