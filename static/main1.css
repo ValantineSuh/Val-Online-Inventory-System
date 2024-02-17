@@ -58,9 +58,18 @@ body {
     text-decoration: none;
     color: #000;
   }
+
+#login-name{
+    margin-right: 50px;
+    float: right;
+    padding: auto;
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 12px;
+}
   
-  
-  .sidebar {
+
+.sidebar {
     position: fixed;
     top: 0;
     left: 0;
